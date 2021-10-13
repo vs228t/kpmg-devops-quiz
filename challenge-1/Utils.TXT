@@ -1,0 +1,47 @@
+CHALLENGE #1
+
+A 3-tier environment is a common setup. Use a tool of your choosing/familiarity create these resources. Please remember we will not be judged on the outcome but more focusing on the approach, style and reproducibility.
+
+
+PROPOSED SOLUTION:
+
+1> Will be using azure for creation of a 3-tier environment.
+2> For the simplicity point of view, I will go for the PaaS solution in azure.
+3> Will make use of ARM templates in azure for the resources creation.
+4> Resources to be created are:
+   i) Azure App Service (Linux OS)
+   ii) Azure Database for PostgreSQL
+   
+PREREQUISITES:
+
+If using portal - An Azure account with an active subscription.
+If using PowerShell - An Azure account with an active subscription
+                    - If you want to run the code locally, Azure PowerShell
+					
+
+COMMANDS FOR RESOURCES CREATION:
+
+#App Service creation:
+az group create --name myResourceGroup --location "southcentralus" &&
+az deployment group create --resource-group myResourceGroup --parameters webAppName="<app-name>" linuxFxVersion="PYTHON|3.7" \
+--template-uri "https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/quickstarts/microsoft.web/app-service-docs-linux/azuredeploy.json"
+
+#Database creation:
+$serverName = Read-Host -Prompt "Enter a name for the new Azure Database for PostgreSQL server"
+$resourceGroupName = Read-Host -Prompt "Enter a name for the new resource group where the server will exist"
+$location = Read-Host -Prompt "Enter an Azure region (for example, centralus) for the resource group"
+$adminUser = Read-Host -Prompt "Enter the Azure Database for PostgreSQL server's administrator account name"
+$adminPassword = Read-Host -Prompt "Enter the administrator password" -AsSecureString
+
+New-AzResourceGroup -Name $resourceGroupName -Location $location # Use this command when you need to create a new resource group for your deployment
+New-AzResourceGroupDeployment -ResourceGroupName $resourceGroupName `
+    -TemplateUri https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/quickstarts/microsoft.dbforpostgresql/managed-postgresql-with-vnet/azuredeploy.json `
+    -serverName $serverName `
+    -administratorLogin $adminUser `
+    -administratorLoginPassword $adminPassword
+
+
+DOCUMENTS REFERRED:
+https://docs.microsoft.com/en-us/azure/app-service/quickstart-arm-template?pivots=platform-linux
+https://docs.microsoft.com/en-us/azure/postgresql/quickstart-create-postgresql-server-database-using-arm-template?tabs=PowerShell
+					

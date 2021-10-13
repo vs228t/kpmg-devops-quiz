@@ -1,0 +1,44 @@
+CHALLENGE #2
+
+We need to write code that will query the meta data of an instance within AWS/Azure and provide a json formatted output. The choice of language and implementation is up to you.
+Bonus Points
+The code allows for a particular data key to be retrieved individually
+Hints
+·         Aws Documentation (https://docs.aws.amazon.com/)
+·         Azure Documentation (https://docs.microsoft.com/en-us/azure/?product=featured)
+·         Google Documentation (https://cloud.google.com/docs)
+
+
+PROPOSED SOLUTION:
+
+1> Will be using azure for creation of Azure Instance Metadata Service.
+2> Will make use of ARM templates in azure for the resource creation.
+3> Resource to be created is:
+   i) Azure Instance Metadata Service (Linux)
+
+   
+PREREQUISITES:
+
+1> If using portal - An Azure account with an active subscription.
+2> If using PowerShell - An Azure account with an active subscription
+                       - If you want to run the code locally, Azure PowerShell
+3> To access IMDS, create a VM from Azure Resource Manager or the Azure portal					   
+
+
+COMMAND FOR RESOURCES CREATION:
+
+curl -H Metadata:true --noproxy "*" "http://169.254.169.254/metadata/instance?api-version=2021-02-01" | jq
+
+QUESTION:
+BONUS POINTS
+The code allows for a particular data key to be retrieved individually
+
+SOLUTION:
+we keep appending keys to the endpoint url mentioned above to retrieve specific indexes/keys from the data object.
+EXAMPLE:
+http://169.254.169.254/metadata/instance/compute?api-version=2021-02-01
+
+
+DOCUMENT REFERRED:
+https://docs.microsoft.com/en-us/azure/virtual-machines/linux/instance-metadata-service?tabs=linux
+					
